@@ -3,15 +3,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Pseudo3DToolkit.Controls">
 
-    <Style TargetType="local:SkyboxControl">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Grid>
-                        <local:CameraControl Name="" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <!-- Default SkyboxControl template -->
+    <ControlTemplate x:Key="SkyboxControlTemplate" TargetType="local:SkyboxControl">
+        <Grid>
+            <local:CameraControl Name="MyCamera" />
+            <ContentPresenter Name="MyContent" Content="{TemplateBinding Content}" />
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Default SkyboxControl style -->
+    <Style x:Key="DefaultSkyboxControlStyle" TargetType="local:SkyboxControl">
+        <Setter Property="Template" Value="{StaticResource SkyboxControlTemplate}" />
     </Style>
+
+    <!-- Default SkyboxControl style declaration -->
+    <Style BasedOn="{StaticResource DefaultSkyboxControlStyle}" TargetType="local:SkyboxControl" />
 </ResourceDictionary>
