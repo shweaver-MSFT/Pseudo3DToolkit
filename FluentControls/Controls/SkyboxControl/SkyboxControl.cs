@@ -9,12 +9,12 @@ using Windows.UI.Xaml.Hosting;
 namespace Pseudo3DToolkit.Controls
 {
     [TemplatePart(Name = CAMERACONTROL_NAME, Type = typeof(CameraControl))]
-    [TemplatePart(Name = CONTENTPRESENTERCONTROL_NAME, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = CONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
     public partial class SkyboxControl : ContentControl
     {
         // Template part names
         private const string CAMERACONTROL_NAME = "MyCamera";
-        private const string CONTENTPRESENTERCONTROL_NAME = "MyContent";
+        private const string CONTENTPRESENTER_NAME = "MyContent";
 
         // Defaults
         private readonly float _skyboxSize = 90000;
@@ -47,33 +47,42 @@ namespace Pseudo3DToolkit.Controls
 
         protected override void OnApplyTemplate()
         {
+            SetupCameraControl();
+            SetupContentPresenter();
+
+            base.OnApplyTemplate();
+        }
+
+        private void SetupContentPresenter()
+        {
+            if (_contentPresenter != null)
+            {
+
+            }
+
+            _contentPresenter = (ContentPresenter)GetTemplateChild(CONTENTPRESENTER_NAME);
+
+            if (_contentPresenter != null)
+            {
+
+            }
+        }
+
+        private void SetupCameraControl()
+        {
+            // Unregister
             if (_cameraControl != null)
             {
                 SizeChanged -= OnSizeChanged;
             }
 
+            // Get template part
             _cameraControl = (CameraControl)GetTemplateChild(CAMERACONTROL_NAME);
 
-            if (_cameraControl != null)
-            {
-                SizeChanged += OnSizeChanged;
-                SetupCameraControl();
-
-                // TODO: Use attached properties to get default values
-                _cameraControl.Yaw = 0;
-                _cameraControl.Pitch = 0;
-                _cameraControl.PerspectiveDistance = 575;
-                _cameraControl.Position = new Vector3(960, 540, 0);
-
-                Rotate(360, 100000);
-            }
-
-            base.OnApplyTemplate();
-        }
-
-        private void SetupCameraControl()
-        {
-            _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
+            // Bail if missing
+            if (_cameraControl == null) return;
+            
+            SizeChanged += OnSizeChanged;
 
             // Camera setup
             _cameraControl.ViewportSize = RenderSize.ToVector2();
@@ -82,12 +91,12 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.PerspectiveDistance = (float)(RenderSize.Height + RenderSize.Width) / 3;
 
             // ImageLoader
+            _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
             _surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(_compositor);
 
-            // Skybox
+            // Skybox container
             var halfSkyboxSize = _skyboxSize / 2;
             var negativeHalfSkyboxSize = -_skyboxSize / 2;
-
             _skyboxContainer = _compositor.CreateContainerVisual();
             _skyboxContainer.CenterPoint = new Vector3(halfSkyboxSize, halfSkyboxSize, halfSkyboxSize);
             _skyboxContainer.AnchorPoint = new Vector2(halfSkyboxSize, halfSkyboxSize);
@@ -96,6 +105,7 @@ namespace Pseudo3DToolkit.Controls
             _skyboxContainer.BorderMode = CompositionBorderMode.Hard;
             _skyboxContainer.Comment = "Skybox";
 
+            // Skybox sides
             SpriteVisual skyboxTop = SetupSkyboxSide(new Vector3(0, 0, _skyboxSize), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsTop.jpg"), "SkyboxTop");
             SpriteVisual skyboxLeft = SetupSkyboxSide(new Vector3(0, 0, _skyboxSize), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsLeft.jpg"), "SkyboxLeft");
             SpriteVisual skyboxRight = SetupSkyboxSide(new Vector3(_skyboxSize, 0, 0), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsRight.jpg"), "SkyboxRight");
@@ -116,14 +126,24 @@ namespace Pseudo3DToolkit.Controls
             // World root
             SpriteVisual treeRoot = _compositor.CreateSpriteVisual();
             SpriteVisual worldRoot = _compositor.CreateSpriteVisual();
+            treeRoot.Comment = "TreeRoot";
             worldRoot.Comment = "WorldRoot";
 
             ElementCompositionPreview.SetElementChildVisual(_cameraControl, treeRoot);
             treeRoot.Children.InsertAtTop(worldRoot);
-            treeRoot.Comment = "TreeRoot";
-
-            // Set up items in visual tree
             worldRoot.Children.InsertAtTop(_skyboxContainer);
+
+            // TODO: Use attached properties to get default values
+            _cameraControl.Yaw = 0;
+            _cameraControl.Pitch = 0;
+            _cameraControl.PerspectiveDistance = 575;
+            _cameraControl.Position = new Vector3(960, 540, 0);
+
+            if (AutoRotate)
+            {
+                // Animate for fun.
+                Rotate(360, 100000);
+            }
         }
 
         private SpriteVisual SetupSkyboxSide(Vector3 offset, Uri image, string comment)

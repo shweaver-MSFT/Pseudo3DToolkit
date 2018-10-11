@@ -10,6 +10,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <pseudo:SkyboxControl />
+        <pseudo:SkyboxControl
+            Name="MySkybox">
+            <Grid 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center">
+
+                <Grid Background="Blue" Height="200" Width="200">
+                    <TextBlock Foreground="White">Hello World!</TextBlock>
+                </Grid>
+            </Grid>
+        </pseudo:SkyboxControl>
+
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click">
+            Click me
+        </Button>
     </Grid>
 </Page>

@@ -109,6 +109,8 @@
     <Compile Include="Controls\CameraControl\CameraControl.cs" />
     <Compile Include="Controls\CameraControl\CompositionCamera.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
+    <Compile Include="Controls\SkyboxControl\SkyboxControl.Navigation.cs" />
+    <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FluentControls.rd.xml" />
   </ItemGroup>
@@ -122,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\StageControl\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Mountains.png" />
