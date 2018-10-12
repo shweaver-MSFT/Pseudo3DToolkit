@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -198,6 +199,49 @@ namespace Pseudo3DToolkit.Controls
             //CameraVisual.TransformMatrix = perspectiveChris;
 
             CameraVisual.TransformMatrix = translate * rotate * (IsOrthographic ? Matrix4x4.Identity : perspectiveChris);
+        }
+
+        public void TranslateX(float value, float duration = 1)
+        {
+            Position = new Vector3(value, Position.Y, Position.Z);
+            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPosition.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
+        }
+
+        public void TranslateY(float value, float duration = 1)
+        {
+            Position = new Vector3(Position.X, value, Position.Z);
+            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPosition.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
+        }
+
+        public void Zoom(float value, float duration = 1)
+        {
+            Position = new Vector3(Position.X, Position.Y, value);
+            Vector3KeyFrameAnimation animateCameraPositionZoom = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPositionZoom.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPositionZoom.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPositionZoom);
+        }
+
+        public void RotatePitch(float value, float duration = 1)
+        {
+            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
+            rotateAnimation.InsertKeyFrame(1, value);
+            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPitch", rotateAnimation);
+        }
+
+        public void RotateYaw(float value, float duration = 1)
+        {
+            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
+            rotateAnimation.InsertKeyFrame(1, value);
+            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
+            CameraVisual.Properties.StartAnimation("cameraAnimationYaw", rotateAnimation);
         }
 
         #region INotifyPropertyChanged

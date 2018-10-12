@@ -11,7 +11,9 @@
 
     <Grid>
         <pseudo:SkyboxControl
-            Name="MySkybox">
+            Name="MySkybox"
+            AutoRotate="True"
+            ShowNavigationControls="True">
             <Grid 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center">

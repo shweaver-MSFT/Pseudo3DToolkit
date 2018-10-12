@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -8,6 +7,8 @@ namespace Pseudo3DToolkit.Controls
 {
     public sealed partial class CameraControl : UserControl
     {
+        private readonly float _cameraRotationDistance = 1.5708f; // 90 degrees = Math.Pi / 2
+
         public CompositionCamera CompositionCamera { get; private set; }
 
         public bool UseAnimations
@@ -75,48 +76,28 @@ namespace Pseudo3DToolkit.Controls
             CompositionCamera.IsOrthographic = true;
         }
 
-        // Broken Animations
-        //public void TranslateX(float value, float duration = 1)
-        //{
-        //    Position = new Vector3(value, Position.Y, Position.Z);
-        //    Vector3KeyFrameAnimation animateCameraPosition = CompositionCamera.CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-        //    animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
-        //    animateCameraPosition.InsertKeyFrame(1f, Position);
-        //    CompositionCamera.CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
-        //}
+        public void PanCameraAbove()
+        {
+            CompositionCamera.RotatePitch(_cameraRotationDistance);
+            CompositionCamera.RotateYaw(0);
+        }
 
-        //public void TranslateY(float value, float duration = 1)
-        //{
-        //    Position = new Vector3(Position.X, value, Position.Z);
-        //    Vector3KeyFrameAnimation animateCameraPosition = CompositionCamera.CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-        //    animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
-        //    animateCameraPosition.InsertKeyFrame(1f, Position);
-        //    CompositionCamera.CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
-        //}
+        public void PanCameraBelow()
+        {
+            CompositionCamera.RotatePitch(-_cameraRotationDistance);
+            CompositionCamera.RotateYaw(0);
+        }
 
-        //public void Zoom(float value, float duration = 1)
-        //{
-        //    Position = new Vector3(Position.X, Position.Y, value);
-        //    Vector3KeyFrameAnimation animateCameraPositionZoom = CompositionCamera.CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-        //    animateCameraPositionZoom.Duration = TimeSpan.FromMilliseconds(duration);
-        //    animateCameraPositionZoom.InsertKeyFrame(1f, Position);
-        //    CompositionCamera.CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPositionZoom);
-        //}
+        public void PanCameraLeft()
+        {
+            CompositionCamera.RotateYaw(-_cameraRotationDistance);
+            CompositionCamera.RotatePitch(0);
+        }
 
-        //public void RotatePitch(float value, float duration = 1)
-        //{
-        //    ScalarKeyFrameAnimation rotateAnimation = CompositionCamera.CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
-        //    rotateAnimation.InsertKeyFrame(1, value);
-        //    rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-        //    CompositionCamera.CameraVisual.Properties.StartAnimation("cameraAnimationPitch", rotateAnimation);
-        //}
-
-        //public void RotateYaw(float value, float duration = 1)
-        //{
-        //    ScalarKeyFrameAnimation rotateAnimation = CompositionCamera.CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
-        //    rotateAnimation.InsertKeyFrame(1, value);
-        //    rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-        //    CompositionCamera.CameraVisual.Properties.StartAnimation("cameraAnimationYaw", rotateAnimation);
-        //}
+        public void PanCameraRight()
+        {
+            CompositionCamera.RotateYaw(_cameraRotationDistance);
+            CompositionCamera.RotatePitch(0);
+        }
     }
 }
