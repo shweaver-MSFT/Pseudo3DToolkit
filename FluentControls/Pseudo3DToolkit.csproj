@@ -107,7 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controls\CameraControl\CameraControl.cs" />
-    <Compile Include="Controls\CameraControl\CompositionCamera.cs" />
+    <Compile Include="Composition\CompositionCamera.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Navigation.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />

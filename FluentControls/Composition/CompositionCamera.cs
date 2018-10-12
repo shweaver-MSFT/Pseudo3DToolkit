@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Composition;
 
-namespace Pseudo3DToolkit.Controls
+namespace Pseudo3DToolkit.Composition
 {
     /// <summary>
     /// A standalone CompositionCamera
