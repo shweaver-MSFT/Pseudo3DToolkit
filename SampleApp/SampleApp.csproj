@@ -132,6 +132,24 @@
     <None Include="SampleApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Skybox\Clouds\Back.jpg" />
+    <Content Include="Assets\Skybox\Clouds\Bottom.jpg" />
+    <Content Include="Assets\Skybox\Clouds\Front.jpg" />
+    <Content Include="Assets\Skybox\Clouds\Left.jpg" />
+    <Content Include="Assets\Skybox\Clouds\Right.jpg" />
+    <Content Include="Assets\Skybox\Clouds\Top.jpg" />
+    <Content Include="Assets\Skybox\Ocean\Back.png" />
+    <Content Include="Assets\Skybox\Ocean\Bottom.png" />
+    <Content Include="Assets\Skybox\Ocean\Front.png" />
+    <Content Include="Assets\Skybox\Ocean\Left.png" />
+    <Content Include="Assets\Skybox\Ocean\Right.png" />
+    <Content Include="Assets\Skybox\Ocean\Top.png" />
+    <Content Include="Assets\Skybox\Sunset\Back.png" />
+    <Content Include="Assets\Skybox\Sunset\Bottom.png" />
+    <Content Include="Assets\Skybox\Sunset\Front.png" />
+    <Content Include="Assets\Skybox\Sunset\Left.png" />
+    <Content Include="Assets\Skybox\Sunset\Right.png" />
+    <Content Include="Assets\Skybox\Sunset\Top.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

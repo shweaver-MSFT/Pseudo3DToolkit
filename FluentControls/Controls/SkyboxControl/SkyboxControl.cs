@@ -17,10 +17,11 @@ namespace Pseudo3DToolkit.Controls
         private const string CONTENTPRESENTER_NAME = "MyContent";
 
         // Defaults
-        private readonly float _skyboxSize = 90000;
-        private readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
-        private readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
-        private readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
+        private static readonly float _skyboxSize = 90000;
+        private static readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
+        private static readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
+        private static readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
+        private static readonly string _defaultImage = "ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png";
 
         // Template parts
         private CameraControl _cameraControl;
@@ -91,6 +92,12 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.SetAsPerspective(RenderSize.ToVector2());
             _cameraControl.PerspectiveDistance = (float)(RenderSize.Height + RenderSize.Width) / 3;
 
+            // TODO: Use attached properties to get default values
+            _cameraControl.Yaw = 0;
+            _cameraControl.Pitch = 0;
+            _cameraControl.PerspectiveDistance = 575;
+            _cameraControl.Position = new Vector3(960, 540, 0);
+
             // ImageLoader
             _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
             _surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(_compositor);
@@ -107,22 +114,12 @@ namespace Pseudo3DToolkit.Controls
             _skyboxContainer.Comment = "Skybox";
 
             // Skybox sides
-            SpriteVisual skyboxTop = SetupSkyboxSide(new Vector3(0, 0, _skyboxSize), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsTop.jpg"), "SkyboxTop");
-            SpriteVisual skyboxLeft = SetupSkyboxSide(new Vector3(0, 0, _skyboxSize), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsLeft.jpg"), "SkyboxLeft");
-            SpriteVisual skyboxRight = SetupSkyboxSide(new Vector3(_skyboxSize, 0, 0), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsRight.jpg"), "SkyboxRight");
-            SpriteVisual skyboxBottom = SetupSkyboxSide(new Vector3(0, _skyboxSize, 0), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsBottom.jpg"), "SkyboxBottom");
-            SpriteVisual skyboxFront = SetupSkyboxSide(new Vector3(0, 0, 0), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsFront.jpg"), "SkyboxFront");
-            SpriteVisual skyboxBack = SetupSkyboxSide(new Vector3(0, 0, _skyboxSize), new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Clouds/CloudsBack.jpg"), "SkyboxBack");
-
-            skyboxTop.RotationAxis = _rotationAxisX;
-            skyboxLeft.RotationAxis = _rotationAxisY;
-            skyboxRight.RotationAxis = _rotationAxisY;
-            skyboxBottom.RotationAxis = _rotationAxisX;
-
-            skyboxTop.RotationAngleInDegrees = -90;
-            skyboxLeft.RotationAngleInDegrees = 90;
-            skyboxRight.RotationAngleInDegrees = -90;
-            skyboxBottom.RotationAngleInDegrees = 90;
+            SpriteVisual skyboxTop = SetupSkyboxSide(SkyboxSide.Top);
+            SpriteVisual skyboxLeft = SetupSkyboxSide(SkyboxSide.Left);
+            SpriteVisual skyboxRight = SetupSkyboxSide(SkyboxSide.Right);
+            SpriteVisual skyboxBottom = SetupSkyboxSide(SkyboxSide.Bottom);
+            SpriteVisual skyboxFront = SetupSkyboxSide(SkyboxSide.Front);
+            SpriteVisual skyboxBack = SetupSkyboxSide(SkyboxSide.Back);
 
             // World root
             SpriteVisual treeRoot = _compositor.CreateSpriteVisual();
@@ -134,12 +131,6 @@ namespace Pseudo3DToolkit.Controls
             treeRoot.Children.InsertAtTop(worldRoot);
             worldRoot.Children.InsertAtTop(_skyboxContainer);
 
-            // TODO: Use attached properties to get default values
-            _cameraControl.Yaw = 0;
-            _cameraControl.Pitch = 0;
-            _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(960, 540, 0);
-
             if (AutoRotate)
             {
                 // Animate for fun.
@@ -147,17 +138,65 @@ namespace Pseudo3DToolkit.Controls
             }
         }
 
-        private SpriteVisual SetupSkyboxSide(Vector3 offset, Uri image, string comment)
+        private SpriteVisual SetupSkyboxSide(SkyboxSide side)
         {
-            SpriteVisual side = _compositor.CreateSpriteVisual();
-            side.BorderMode = CompositionBorderMode.Hard;
-            side.Size = new Vector2(_skyboxSize, _skyboxSize);
-            side.Offset = offset;
-            side.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(image).Surface);
-            side.Comment = comment;
+            SpriteVisual visual = _compositor.CreateSpriteVisual();
+            CompositionBorderMode borderMode = CompositionBorderMode.Hard;
+            Vector2 size = new Vector2(_skyboxSize, _skyboxSize);
+            Vector3 offset = Vector3.Zero;
+            string image = _defaultImage;
+            string comment = string.Empty;
 
-            _skyboxContainer.Children.InsertAtTop(side);
-            return side;
+            switch (side)
+            {
+                case SkyboxSide.Top:
+                    offset = new Vector3(0, 0, _skyboxSize);
+                    image = TopImage;
+                    comment = "SkyboxTop";
+                    visual.RotationAngleInDegrees = -90;
+                    visual.RotationAxis = _rotationAxisX;
+                    break;
+                case SkyboxSide.Bottom:
+                    offset = new Vector3(0, _skyboxSize, 0);
+                    image = BottomImage;
+                    comment = "SkyboxBottom";
+                    visual.RotationAngleInDegrees = 90;
+                    visual.RotationAxis = _rotationAxisX;
+                    break;
+                case SkyboxSide.Left:
+                    offset = new Vector3(0, 0, _skyboxSize);
+                    image = LeftImage;
+                    comment = "SkyboxLeft";
+                    visual.RotationAngleInDegrees = 90;
+                    visual.RotationAxis = _rotationAxisY;
+                    break;
+                case SkyboxSide.Right:
+                    offset = new Vector3(_skyboxSize, 0, 0);
+                    image = RightImage;
+                    comment = "SkyboxRight";
+                    visual.RotationAngleInDegrees = -90;
+                    visual.RotationAxis = _rotationAxisY;
+                    break;
+                case SkyboxSide.Front:
+                    offset = new Vector3(0, 0, 0);
+                    image = FrontImage;
+                    comment = "SkyboxFront";
+                    break;
+                case SkyboxSide.Back:
+                    offset = new Vector3(0, 0, _skyboxSize);
+                    image = BackImage;
+                    comment = "SkyboxBack";
+                    break;
+            }
+
+            visual.BorderMode = borderMode;
+            visual.Size = size;
+            visual.Offset = offset;
+            visual.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri(image)).Surface);
+            visual.Comment = comment;
+
+            _skyboxContainer.Children.InsertAtTop(visual);
+            return visual;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)

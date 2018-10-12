@@ -75,13 +75,14 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual = cameraVisual;
 
             // Set defaults
+            UseAnimations = false;
+            IsOrthographic = true;
             ViewportSize = new Vector2(1, 1);
             PerspectiveDistance = (ViewportSize.X + ViewportSize.Y) / 2;
+            Position = new Vector3(0, 0, -PerspectiveDistance);
             Yaw = 0;
             Pitch = 0;
             Roll = 0;
-            Position = new Vector3(0, 0, -PerspectiveDistance);
-            IsOrthographic = true;
 
             PropertyChanged += CompositionCamera_PropertyChanged;
 

@@ -13,7 +13,13 @@
         <pseudo:SkyboxControl
             Name="MySkybox"
             AutoRotate="True"
-            ShowNavigationControls="True">
+            NavigationControlsVisibility="Visible"
+            TopImage="ms-appx:///Assets/Skybox/Ocean/Top.png"
+            BottomImage="ms-appx:///Assets/Skybox/Ocean/Bottom.png"
+            LeftImage="ms-appx:///Assets/Skybox/Ocean/Left.png"
+            RightImage="ms-appx:///Assets/Skybox/Ocean/Right.png"
+            FrontImage="ms-appx:///Assets/Skybox/Ocean/Front.png"
+            BackImage="ms-appx:///Assets/Skybox/Ocean/Back.png">
             <Grid 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center">
@@ -23,9 +29,5 @@
                 </Grid>
             </Grid>
         </pseudo:SkyboxControl>
-
-        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click">
-            Click me
-        </Button>
     </Grid>
 </Page>

@@ -111,6 +111,7 @@
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Navigation.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
+    <Compile Include="Controls\SkyboxControl\SkyboxSide.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FluentControls.rd.xml" />
   </ItemGroup>
@@ -129,24 +130,7 @@
   <ItemGroup>
     <Content Include="Assets\Mountains.png" />
     <Content Include="Assets\Sky.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsBack.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsBottom.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsFront.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsLeft.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsRight.jpg" />
-    <Content Include="Assets\Skybox\Clouds\CloudsTop.jpg" />
-    <Content Include="Assets\Skybox\Ocean\OceanBack.png" />
-    <Content Include="Assets\Skybox\Ocean\OceanBottom.png" />
-    <Content Include="Assets\Skybox\Ocean\OceanFront.png" />
-    <Content Include="Assets\Skybox\Ocean\OceanLeft.png" />
-    <Content Include="Assets\Skybox\Ocean\OceanRight.png" />
-    <Content Include="Assets\Skybox\Ocean\OceanTop.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetBack.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetBottom.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetFront.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetLeft.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetRight.png" />
-    <Content Include="Assets\Skybox\Sunset\SunsetTop.png" />
+    <Content Include="Assets\Skybox\Gridlines.png" />
     <Content Include="Assets\Stage\Background.png" />
     <Content Include="Assets\Stage\Background_Dark.png" />
     <Content Include="Assets\Stage\Background_Light.png" />

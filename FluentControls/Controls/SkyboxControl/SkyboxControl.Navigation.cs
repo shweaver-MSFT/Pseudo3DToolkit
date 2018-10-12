@@ -3,6 +3,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Pseudo3DToolkit.Controls
 {
+    [TemplatePart(Name = TEMPLATEPART_BUTTON_CENTER, Type = typeof(Button))]
+    [TemplatePart(Name = TEMPLATEPART_BUTTON_LEFT, Type = typeof(Button))]
+    [TemplatePart(Name = TEMPLATEPART_BUTTON_RIGHT, Type = typeof(Button))]
+    [TemplatePart(Name = TEMPLATEPART_BUTTON_ABOVE, Type = typeof(Button))]
+    [TemplatePart(Name = TEMPLATEPART_BUTTON_BELOW, Type = typeof(Button))]
     public partial class SkyboxControl : ContentControl
     {
         const string TEMPLATEPART_BUTTON_CENTER= "ButtonCenter";
