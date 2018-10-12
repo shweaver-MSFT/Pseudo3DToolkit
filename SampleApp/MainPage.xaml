@@ -13,13 +13,7 @@
         <pseudo:SkyboxControl
             Name="MySkybox"
             AutoRotate="True"
-            NavigationControlsVisibility="Visible"
-            TopImage="ms-appx:///Assets/Skybox/Clouds/Top.jpg"
-            BottomImage="ms-appx:///Assets/Skybox/Clouds/Bottom.jpg"
-            LeftImage="ms-appx:///Assets/Skybox/Clouds/Left.jpg"
-            RightImage="ms-appx:///Assets/Skybox/Clouds/Right.jpg"
-            FrontImage="ms-appx:///Assets/Skybox/Clouds/Front.jpg"
-            BackImage="ms-appx:///Assets/Skybox/Clouds/Back.jpg">
+            NavigationControlsVisibility="Visible">
             <Grid 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center">

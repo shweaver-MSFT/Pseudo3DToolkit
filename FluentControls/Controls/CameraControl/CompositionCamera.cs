@@ -44,14 +44,8 @@ namespace Pseudo3DToolkit.Controls
         {
             get
             {
-                Vector2 value;
-                var status = CameraVisual.Properties.TryGetVector2("cameraAnimationViewportSize", out value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return new Vector2(0, 0);
-
+                var status = CameraVisual.Properties.TryGetVector2("cameraAnimationViewportSize", out Vector2 value);
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : new Vector2(0, 0);
             }
             set
             {
@@ -65,22 +59,11 @@ namespace Pseudo3DToolkit.Controls
             get
             {
                 var status = CameraVisual.Properties.TryGetScalar("cameraAnimationPerspectiveDistance", out float value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return 1;
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : 1;
             }
             set
             {
-                if (value <= 0)
-                {
-                    CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", 1);
-                }
-                else
-                {
-                    CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", value);
-                }
+                CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", (value <= 0) ? 1 : value);
                 UpdateVisualMatrix();
             }
         }
@@ -89,13 +72,8 @@ namespace Pseudo3DToolkit.Controls
         {
             get
             {
-                Vector3 value;
-                var status = CameraVisual.Properties.TryGetVector3("cameraAnimationPosition", out value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return new Vector3(0, 0, 0);
+                var status = CameraVisual.Properties.TryGetVector3("cameraAnimationPosition", out Vector3 value);
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : new Vector3(0, 0, 0);
             }
             set
             {
@@ -107,13 +85,8 @@ namespace Pseudo3DToolkit.Controls
         {
             get
             {
-                float value;
-                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationYaw", out value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return 1;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationYaw", out float value);
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : 1;
             }
             set
             {
@@ -126,13 +99,8 @@ namespace Pseudo3DToolkit.Controls
         {
             get
             {
-                float value;
-                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationPitch", out value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return 1;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationPitch", out float value);
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : 1;
             }
             set
             {
@@ -145,13 +113,8 @@ namespace Pseudo3DToolkit.Controls
         {
             get
             {
-                float value;
-                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationRoll", out value);
-                if (status.Equals(CompositionGetValueStatus.Succeeded))
-                {
-                    return value;
-                }
-                return 1;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationRoll", out float value);
+                return status.Equals(CompositionGetValueStatus.Succeeded) ? value : 1;
             }
             set
             {
@@ -175,6 +138,49 @@ namespace Pseudo3DToolkit.Controls
             IsOrthographic = true;
 
             AnimateVisualMatrix();
+        }
+
+        public void TranslateX(float value, float duration = _defaultAnimationDuration)
+        {
+            Position = new Vector3(value, Position.Y, Position.Z);
+            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPosition.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
+        }
+
+        public void TranslateY(float value, float duration = _defaultAnimationDuration)
+        {
+            Position = new Vector3(Position.X, value, Position.Z);
+            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPosition.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
+        }
+
+        public void Zoom(float value, float duration = _defaultAnimationDuration)
+        {
+            Position = new Vector3(Position.X, Position.Y, value);
+            Vector3KeyFrameAnimation animateCameraPositionZoom = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
+            animateCameraPositionZoom.Duration = TimeSpan.FromMilliseconds(duration);
+            animateCameraPositionZoom.InsertKeyFrame(1f, Position);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPositionZoom);
+        }
+
+        public void RotatePitch(float value, float duration = _defaultAnimationDuration)
+        {
+            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
+            rotateAnimation.InsertKeyFrame(1, value);
+            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
+            CameraVisual.Properties.StartAnimation("cameraAnimationPitch", rotateAnimation);
+        }
+
+        public void RotateYaw(float value, float duration = _defaultAnimationDuration)
+        {
+            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
+            rotateAnimation.InsertKeyFrame(1, value);
+            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
+            CameraVisual.Properties.StartAnimation("cameraAnimationYaw", rotateAnimation);
         }
 
         private void AnimateVisualMatrix()
@@ -256,49 +262,6 @@ namespace Pseudo3DToolkit.Controls
             //CameraVisual.TransformMatrix = perspectiveChris;
 
             CameraVisual.TransformMatrix = translate * rotate * (IsOrthographic ? Matrix4x4.Identity : perspectiveChris);
-        }
-
-        public void TranslateX(float value, float duration = _defaultAnimationDuration)
-        {
-            Position = new Vector3(value, Position.Y, Position.Z);
-            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
-            animateCameraPosition.InsertKeyFrame(1f, Position);
-            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
-        }
-
-        public void TranslateY(float value, float duration = _defaultAnimationDuration)
-        {
-            Position = new Vector3(Position.X, value, Position.Z);
-            Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-            animateCameraPosition.Duration = TimeSpan.FromMilliseconds(duration);
-            animateCameraPosition.InsertKeyFrame(1f, Position);
-            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
-        }
-
-        public void Zoom(float value, float duration = _defaultAnimationDuration)
-        {
-            Position = new Vector3(Position.X, Position.Y, value);
-            Vector3KeyFrameAnimation animateCameraPositionZoom = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
-            animateCameraPositionZoom.Duration = TimeSpan.FromMilliseconds(duration);
-            animateCameraPositionZoom.InsertKeyFrame(1f, Position);
-            CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPositionZoom);
-        }
-
-        public void RotatePitch(float value, float duration = _defaultAnimationDuration)
-        {
-            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
-            rotateAnimation.InsertKeyFrame(1, value);
-            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-            CameraVisual.Properties.StartAnimation("cameraAnimationPitch", rotateAnimation);
-        }
-
-        public void RotateYaw(float value, float duration = _defaultAnimationDuration)
-        {
-            ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
-            rotateAnimation.InsertKeyFrame(1, value);
-            rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-            CameraVisual.Properties.StartAnimation("cameraAnimationYaw", rotateAnimation);
         }
 
         #region INotifyPropertyChanged
