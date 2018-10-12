@@ -14,12 +14,12 @@
             Name="MySkybox"
             AutoRotate="True"
             NavigationControlsVisibility="Visible"
-            TopImage="ms-appx:///Assets/Skybox/Ocean/Top.png"
-            BottomImage="ms-appx:///Assets/Skybox/Ocean/Bottom.png"
-            LeftImage="ms-appx:///Assets/Skybox/Ocean/Left.png"
-            RightImage="ms-appx:///Assets/Skybox/Ocean/Right.png"
-            FrontImage="ms-appx:///Assets/Skybox/Ocean/Front.png"
-            BackImage="ms-appx:///Assets/Skybox/Ocean/Back.png">
+            TopImage="ms-appx:///Assets/Skybox/Sunset/Top.png"
+            BottomImage="ms-appx:///Assets/Skybox/Sunset/Bottom.png"
+            LeftImage="ms-appx:///Assets/Skybox/Sunset/Left.png"
+            RightImage="ms-appx:///Assets/Skybox/Sunset/Right.png"
+            FrontImage="ms-appx:///Assets/Skybox/Sunset/Front.png"
+            BackImage="ms-appx:///Assets/Skybox/Sunset/Back.png">
             <Grid 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center">

@@ -12,8 +12,15 @@ namespace Pseudo3DToolkit.Controls
     /// </summary>
     public sealed class CompositionCamera : INotifyPropertyChanged
     {
-        public Visual CameraVisual { get; private set; }
+        private const int _defaultAnimationDuration = 1000;
 
+        public Visual CameraVisual { get; }
+
+        // This boolean determines whether to use composition expression animations
+        // to drive camera movement, or without.
+        // Using expression animations is nice because the camera can then be driven
+        // by animating things like the "cameraAnimationViewportSize" field in 
+        // CameraVisual.Properties
         private bool _useAnimations;
         public bool UseAnimations
         {
@@ -25,49 +32,132 @@ namespace Pseudo3DToolkit.Controls
         public bool IsOrthographic
         {
             get => _isOrthographic;
-            set => Set(ref _isOrthographic, value);
+            set
+            {
+                Set(ref _isOrthographic, value);
+                UpdateVisualMatrix();
+                AnimateVisualMatrix();
+            }
         }
 
-        private float _perspectiveDistance;
-        public float PerspectiveDistance
-        {
-            get => _perspectiveDistance;
-            set => Set(ref _perspectiveDistance, value);
-        }
-
-        private Vector2 _viewportSize;
         public Vector2 ViewportSize
         {
-            get => _viewportSize;
-            set => Set(ref _viewportSize, value);
+            get
+            {
+                Vector2 value;
+                var status = CameraVisual.Properties.TryGetVector2("cameraAnimationViewportSize", out value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return new Vector2(0, 0);
+
+            }
+            set
+            {
+                CameraVisual.Properties.InsertVector2("cameraAnimationViewportSize", value);
+                UpdateVisualMatrix();
+            }
         }
 
-        private Vector3 _position;
+        public float PerspectiveDistance
+        {
+            get
+            {
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationPerspectiveDistance", out float value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return 1;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", 1);
+                }
+                else
+                {
+                    CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", value);
+                }
+                UpdateVisualMatrix();
+            }
+        }
+
         public Vector3 Position
         {
-            get => _position;
-            set => Set(ref _position, value);
+            get
+            {
+                Vector3 value;
+                var status = CameraVisual.Properties.TryGetVector3("cameraAnimationPosition", out value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return new Vector3(0, 0, 0);
+            }
+            set
+            {
+                CameraVisual.Properties.InsertVector3("cameraAnimationPosition", value);
+                UpdateVisualMatrix();
+            }
         }
-
-        private float _yaw;
         public float Yaw
         {
-            get => _yaw;
-            set => Set(ref _yaw, value);
+            get
+            {
+                float value;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationYaw", out value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return 1;
+            }
+            set
+            {
+                CameraVisual.Properties.InsertScalar("cameraAnimationYaw", value);
+                UpdateVisualMatrix();
+            }
         }
 
-        private float _pitch;
         public float Pitch
         {
-            get => _pitch;
-            set => Set(ref _pitch, value);
+            get
+            {
+                float value;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationPitch", out value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return 1;
+            }
+            set
+            {
+                CameraVisual.Properties.InsertScalar("cameraAnimationPitch", value);
+                UpdateVisualMatrix();
+            }
         }
 
-        private float _roll;
         public float Roll
         {
-            get => _roll;
-            set => Set(ref _roll, value);
+            get
+            {
+                float value;
+                var status = CameraVisual.Properties.TryGetScalar("cameraAnimationRoll", out value);
+                if (status.Equals(CompositionGetValueStatus.Succeeded))
+                {
+                    return value;
+                }
+                return 1;
+            }
+            set
+            {
+                CameraVisual.Properties.InsertScalar("cameraAnimationRoll", value);
+                UpdateVisualMatrix();
+            }
         }
 
         public CompositionCamera(Visual cameraVisual)
@@ -75,50 +165,16 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual = cameraVisual;
 
             // Set defaults
-            UseAnimations = false;
-            IsOrthographic = true;
+            UseAnimations = true;
             ViewportSize = new Vector2(1, 1);
             PerspectiveDistance = (ViewportSize.X + ViewportSize.Y) / 2;
-            Position = new Vector3(0, 0, -PerspectiveDistance);
             Yaw = 0;
             Pitch = 0;
             Roll = 0;
-
-            PropertyChanged += CompositionCamera_PropertyChanged;
+            Position = new Vector3(0, 0, -PerspectiveDistance);
+            IsOrthographic = true;
 
             AnimateVisualMatrix();
-        }
-
-        private void CompositionCamera_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch(e.PropertyName)
-            {
-                case nameof(ViewportSize):
-                    CameraVisual.Properties.InsertVector2("cameraAnimationViewportSize", ViewportSize);
-                    break;
-                case nameof(PerspectiveDistance):
-                    CameraVisual.Properties.InsertScalar("cameraAnimationPerspectiveDistance", PerspectiveDistance);
-                    break;
-                case nameof(Position):
-                    CameraVisual.Properties.InsertVector3("cameraAnimationPosition", Position);
-                    break;
-                case nameof(Yaw):
-                    CameraVisual.Properties.InsertScalar("cameraAnimationYaw", Yaw);
-                    break;
-                case nameof(Pitch):
-                    CameraVisual.Properties.InsertScalar("cameraAnimationPitch", Pitch);
-                    break;
-                case nameof(Roll):
-                    CameraVisual.Properties.InsertScalar("cameraAnimationRoll", Roll);
-                    break;
-            }
-
-            UpdateVisualMatrix();
-
-            if (e.PropertyName == nameof(IsOrthographic))
-            {
-                AnimateVisualMatrix();
-            }
         }
 
         private void AnimateVisualMatrix()
@@ -202,7 +258,7 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual.TransformMatrix = translate * rotate * (IsOrthographic ? Matrix4x4.Identity : perspectiveChris);
         }
 
-        public void TranslateX(float value, float duration = 1)
+        public void TranslateX(float value, float duration = _defaultAnimationDuration)
         {
             Position = new Vector3(value, Position.Y, Position.Z);
             Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
@@ -211,7 +267,7 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
         }
 
-        public void TranslateY(float value, float duration = 1)
+        public void TranslateY(float value, float duration = _defaultAnimationDuration)
         {
             Position = new Vector3(Position.X, value, Position.Z);
             Vector3KeyFrameAnimation animateCameraPosition = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
@@ -220,7 +276,7 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPosition);
         }
 
-        public void Zoom(float value, float duration = 1)
+        public void Zoom(float value, float duration = _defaultAnimationDuration)
         {
             Position = new Vector3(Position.X, Position.Y, value);
             Vector3KeyFrameAnimation animateCameraPositionZoom = CameraVisual.Compositor.CreateVector3KeyFrameAnimation();
@@ -229,7 +285,7 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual.Properties.StartAnimation("cameraAnimationPosition", animateCameraPositionZoom);
         }
 
-        public void RotatePitch(float value, float duration = 1)
+        public void RotatePitch(float value, float duration = _defaultAnimationDuration)
         {
             ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
             rotateAnimation.InsertKeyFrame(1, value);
@@ -237,7 +293,7 @@ namespace Pseudo3DToolkit.Controls
             CameraVisual.Properties.StartAnimation("cameraAnimationPitch", rotateAnimation);
         }
 
-        public void RotateYaw(float value, float duration = 1)
+        public void RotateYaw(float value, float duration = _defaultAnimationDuration)
         {
             ScalarKeyFrameAnimation rotateAnimation = CameraVisual.Compositor.CreateScalarKeyFrameAnimation();
             rotateAnimation.InsertKeyFrame(1, value);

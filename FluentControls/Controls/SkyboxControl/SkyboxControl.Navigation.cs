@@ -125,10 +125,10 @@ namespace Pseudo3DToolkit.Controls
 
         private void ResetCamera()
         {
-            _cameraControl.CompositionCamera.RotateYaw(0);
-            _cameraControl.CompositionCamera.RotatePitch(0);
-            _cameraControl.CompositionCamera.TranslateX(960);
-            _cameraControl.CompositionCamera.TranslateY(540);
+            _cameraControl.CompositionCamera.RotateYaw(0, 1000);
+            _cameraControl.CompositionCamera.RotatePitch(0, 1000);
+            _cameraControl.CompositionCamera.TranslateX(960, 1000);
+            _cameraControl.CompositionCamera.TranslateY(540, 1000);
         }
     }
 }
