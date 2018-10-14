@@ -10,7 +10,7 @@ namespace Pseudo3DToolkit.Controls
         public static readonly DependencyProperty NavigationControlsVisibilityProperty = DependencyProperty.Register(nameof(NavigationControlsVisibility), typeof(Visibility), typeof(SkyboxControl), new PropertyMetadata(Visibility.Collapsed, OnNavigationControlsVisibilityChanged));
 
         public static readonly DependencyProperty TopImageProperty = DependencyProperty.Register(nameof(TopImage), typeof(string), typeof(SkyboxControl), new PropertyMetadata(_defaultImage, OnTopImageChanged));
-        
+
         public static readonly DependencyProperty BottomImageProperty = DependencyProperty.Register(nameof(BottomImage), typeof(string), typeof(SkyboxControl), new PropertyMetadata(_defaultImage, OnBottomImageChanged));
 
         public static readonly DependencyProperty LeftImageProperty = DependencyProperty.Register(nameof(LeftImage), typeof(string), typeof(SkyboxControl), new PropertyMetadata(_defaultImage, OnLeftImageChanged));

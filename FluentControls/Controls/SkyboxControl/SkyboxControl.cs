@@ -50,7 +50,6 @@ namespace Pseudo3DToolkit.Controls
         {
             SetupCameraControl();
             SetupContentPresenter();
-            SetupNavigationControls();
 
             base.OnApplyTemplate();
         }

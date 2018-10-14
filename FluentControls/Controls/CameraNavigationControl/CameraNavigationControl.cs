@@ -8,21 +8,42 @@ namespace Pseudo3DToolkit.Controls
     [TemplatePart(Name = TEMPLATEPART_BUTTON_RIGHT, Type = typeof(Button))]
     [TemplatePart(Name = TEMPLATEPART_BUTTON_ABOVE, Type = typeof(Button))]
     [TemplatePart(Name = TEMPLATEPART_BUTTON_BELOW, Type = typeof(Button))]
-    public partial class SkyboxControl : ContentControl
+    public class CameraNavigationControl : Control
     {
-        const string TEMPLATEPART_BUTTON_CENTER= "ButtonCenter";
-        const string TEMPLATEPART_BUTTON_LEFT = "ButtonLeft";
-        const string TEMPLATEPART_BUTTON_RIGHT= "ButtonRight";
-        const string TEMPLATEPART_BUTTON_ABOVE= "ButtonAbove";
-        const string TEMPLATEPART_BUTTON_BELOW = "ButtonBelow";
+        private const string TEMPLATEPART_BUTTON_CENTER = "ButtonCenter";
+        private const string TEMPLATEPART_BUTTON_LEFT = "ButtonLeft";
+        private const string TEMPLATEPART_BUTTON_RIGHT = "ButtonRight";
+        private const string TEMPLATEPART_BUTTON_ABOVE = "ButtonAbove";
+        private const string TEMPLATEPART_BUTTON_BELOW = "ButtonBelow";
 
-        Button _centerButton;
-        Button _leftButton;
-        Button _rightButton;
-        Button _aboveButton;
-        Button _belowButton;
+        private Button _centerButton;
+        private Button _leftButton;
+        private Button _rightButton;
+        private Button _aboveButton;
+        private Button _belowButton;
 
-        private void SetupNavigationControls()
+        public static readonly DependencyProperty CameraProperty = DependencyProperty.Register(nameof(Camera), typeof(CameraControl), typeof(CameraNavigationControl), new PropertyMetadata(null, OnCameraChanged));
+
+        public CameraControl Camera
+        {
+            get => (CameraControl)GetValue(CameraProperty);
+            set => SetValue(CameraProperty, value);
+        }
+
+        private static void OnCameraChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CameraNavigationControl cameraNav)
+            {
+                cameraNav?.ResetCamera();
+            }
+        }
+
+        public CameraNavigationControl()
+        {
+            DefaultStyleKey = typeof(CameraNavigationControl);
+        }
+
+        protected override void OnApplyTemplate()
         {
             if (_centerButton != null)
             {
@@ -89,46 +110,55 @@ namespace Pseudo3DToolkit.Controls
                 _belowButton.Click += OnCenterButton_Click;
                 _belowButton.GotFocus += OnBelowButton_Focus;
             }
+
+            base.OnApplyTemplate();
         }
 
         private void OnCenterButton_Click(object sender, RoutedEventArgs e)
         {
+            if (Camera == null) return;
             ResetCamera();
             _centerButton.Focus(FocusState.Programmatic);
         }
 
         private void OnCenterButton_Focus(object sender, RoutedEventArgs e)
         {
-            _cameraControl.PerspectiveDistance = 575;
+            if (Camera == null) return;
+            Camera.PerspectiveDistance = 575;
             ResetCamera();
         }
 
         private void OnLeftButton_Focus(object sender, RoutedEventArgs e)
         {
-            _cameraControl.PanCameraLeft();
+            if (Camera == null) return;
+            Camera.PanCameraLeft();
         }
 
         private void OnRightButton_Focus(object sender, RoutedEventArgs e)
         {
-            _cameraControl.PanCameraRight();
+            if (Camera == null) return;
+            Camera.PanCameraRight();
         }
 
         private void OnAboveButton_Focus(object sender, RoutedEventArgs e)
         {
-            _cameraControl.PanCameraAbove();
+            if (Camera == null) return;
+            Camera.PanCameraAbove();
         }
 
         private void OnBelowButton_Focus(object sender, RoutedEventArgs e)
         {
-            _cameraControl.PanCameraBelow();
+            if (Camera == null) return;
+            Camera.PanCameraBelow();
         }
 
         private void ResetCamera()
         {
-            _cameraControl.CompositionCamera.RotateYaw(0, 1000);
-            _cameraControl.CompositionCamera.RotatePitch(0, 1000);
-            _cameraControl.CompositionCamera.TranslateX(960, 1000);
-            _cameraControl.CompositionCamera.TranslateY(540, 1000);
+            if (Camera == null) return;
+            Camera.CompositionCamera.RotateYaw(0, 1000);
+            Camera.CompositionCamera.RotatePitch(0, 1000);
+            Camera.CompositionCamera.TranslateX(960, 1000);
+            Camera.CompositionCamera.TranslateY(540, 1000);
         }
     }
 }

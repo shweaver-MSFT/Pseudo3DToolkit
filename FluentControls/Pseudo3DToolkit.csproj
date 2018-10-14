@@ -108,8 +108,8 @@
   <ItemGroup>
     <Compile Include="Controls\CameraControl\CameraControl.cs" />
     <Compile Include="Composition\CompositionCamera.cs" />
+    <Compile Include="Controls\CameraNavigationControl\CameraNavigationControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
-    <Compile Include="Controls\SkyboxControl\SkyboxControl.Navigation.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxSide.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +142,10 @@
     <Content Include="Assets\Water.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\CameraNavigationControl\CameraNavigationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SkyboxControl\SkyboxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
