@@ -112,6 +112,7 @@
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxSide.cs" />
+    <Compile Include="Controls\StageControl\StageControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FluentControls.rd.xml" />
   </ItemGroup>
@@ -124,7 +125,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\StageControl\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
@@ -150,10 +150,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\StageControl\StageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\StageControl\StageControl.Properties.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

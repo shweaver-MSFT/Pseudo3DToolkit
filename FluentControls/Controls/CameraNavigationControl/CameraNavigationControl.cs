@@ -8,7 +8,7 @@ namespace Pseudo3DToolkit.Controls
     [TemplatePart(Name = TEMPLATEPART_BUTTON_RIGHT, Type = typeof(Button))]
     [TemplatePart(Name = TEMPLATEPART_BUTTON_ABOVE, Type = typeof(Button))]
     [TemplatePart(Name = TEMPLATEPART_BUTTON_BELOW, Type = typeof(Button))]
-    public class CameraNavigationControl : Control
+    public sealed partial class CameraNavigationControl : Control
     {
         private const string TEMPLATEPART_BUTTON_CENTER = "ButtonCenter";
         private const string TEMPLATEPART_BUTTON_LEFT = "ButtonLeft";

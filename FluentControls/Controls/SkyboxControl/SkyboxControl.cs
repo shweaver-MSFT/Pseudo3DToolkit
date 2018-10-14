@@ -10,7 +10,7 @@ namespace Pseudo3DToolkit.Controls
 {
     [TemplatePart(Name = CAMERACONTROL_NAME, Type = typeof(CameraControl))]
     [TemplatePart(Name = CONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
-    public partial class SkyboxControl : ContentControl
+    public sealed partial class SkyboxControl : ContentControl
     {
         // Template part names
         private const string CAMERACONTROL_NAME = "MyCamera";

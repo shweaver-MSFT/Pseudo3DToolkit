@@ -4,5 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Pseudo3DToolkit/Controls/CameraNavigationControl/CameraNavigationControl.xaml" />
         <ResourceDictionary Source="ms-appx:///Pseudo3DToolkit/Controls/SkyboxControl/SkyboxControl.xaml" />
+        <ResourceDictionary Source="ms-appx:///Pseudo3DToolkit/Controls/StageControl/StageControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

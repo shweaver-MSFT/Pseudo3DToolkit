@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Pseudo3DToolkit.Controls">
+
+    <ControlTemplate x:Key="DefaultStageControlTemplate" TargetType="local:StageControl">
+        <Grid>
+            <local:CameraControl Name="MyCamera" />
+            <ContentPresenter 
+                Name="MyContent" 
+                Content="{TemplateBinding Content}" />
+            <local:CameraNavigationControl 
+                Name="NavigationControls"
+                Visibility="{TemplateBinding NavigationControlsVisibility}"
+                Camera="{Binding ElementName=MyCamera}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,50,50" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="DefaultStageControlStyle" TargetType="local:StageControl">
+        <Setter Property="Template" Value="{StaticResource DefaultStageControlTemplate}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultStageControlStyle}" TargetType="local:StageControl" />
+</ResourceDictionary>

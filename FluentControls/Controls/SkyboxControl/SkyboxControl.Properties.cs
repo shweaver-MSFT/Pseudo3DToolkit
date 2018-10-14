@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Pseudo3DToolkit.Controls
 {
-    public partial class SkyboxControl : ContentControl
+    public sealed partial class SkyboxControl : ContentControl
     {
         public static readonly DependencyProperty AutoRotateProperty = DependencyProperty.Register(nameof(AutoRotate), typeof(bool), typeof(SkyboxControl), new PropertyMetadata(false, OnAutoRotateChanged));
 
