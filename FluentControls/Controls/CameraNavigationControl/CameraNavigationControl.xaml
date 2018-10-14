@@ -19,7 +19,6 @@
                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                     <Setter Property="VerticalAlignment" Value="Stretch" />
                     <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Opacity" Value="0.7" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
