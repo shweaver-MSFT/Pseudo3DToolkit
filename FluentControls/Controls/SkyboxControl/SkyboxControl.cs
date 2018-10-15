@@ -96,16 +96,11 @@ namespace Pseudo3DToolkit.Controls
             SizeChanged += OnSizeChanged;
 
             // Camera setup
-            _cameraControl.ViewportSize = RenderSize.ToVector2();
-            _cameraControl.Position = _cameraPosition;
             _cameraControl.SetAsPerspective(RenderSize.ToVector2());
-            _cameraControl.PerspectiveDistance = (float)(RenderSize.Height + RenderSize.Width) / 3;
-
-            // TODO: Use attached properties to get default values
             _cameraControl.Yaw = 0;
             _cameraControl.Pitch = 0;
             _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(960, 540, 0);
+            _cameraControl.Position = new Vector3(1920 / 2, 1080 / 2, 0);
 
             // ImageLoader
             _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
