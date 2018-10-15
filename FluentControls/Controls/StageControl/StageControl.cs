@@ -1,6 +1,7 @@
 ﻿using Robmikh.CompositionSurfaceFactory;
 using System;
 using System.Numerics;
+using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -86,7 +87,7 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.Yaw = 0;
             _cameraControl.Pitch = 0;
             _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, 0);
+            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth / 4);
 
             // ImageLoader
             _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
@@ -99,25 +100,25 @@ namespace Pseudo3DToolkit.Controls
             _stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
             _stageContainer.RotationAxis = _rotationAxisY;
             _stageContainer.BorderMode = CompositionBorderMode.Hard;
-            _stageContainer.Comment = "Skybox";
+            _stageContainer.Comment = "Stage";
 
             // Backdrop
             SpriteVisual back = _compositor.CreateSpriteVisual();
-            back.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth); // <960,480,-960>
+            back.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth);
             back.Size = new Vector2(_stageWidth, _stageBackdropHeight);
-            back.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png")).Surface);
+            back.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png"), new Size(_stageWidth, _stageBackdropHeight)).Surface);
             back.Comment = "Backdrop";
             _stageContainer.Children.InsertAtTop(back);
 
             // Floor
             SpriteVisual bottom = _compositor.CreateSpriteVisual();
             bottom = _compositor.CreateSpriteVisual();
-            bottom.Offset = new Vector3(0, _stageWidth / 2, 0);
+            bottom.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight * 1.5f, -1 * _stageFloorDepth);
             bottom.Size = new Vector2(_stageWidth, _stageFloorDepth);
             bottom.RotationAngleInDegrees = 90f;
             bottom.RotationAxis = _rotationAxisX;
             bottom.Comment = "Floor";
-            bottom.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png")).Surface);
+            bottom.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png"), new Size(_stageWidth, _stageFloorDepth)).Surface);
             _stageContainer.Children.InsertAtTop(bottom);
 
             // World root

@@ -4,7 +4,7 @@
     xmlns:local="using:Pseudo3DToolkit.Controls">
 
     <ControlTemplate x:Key="DefaultStageControlTemplate" TargetType="local:StageControl">
-        <Grid>
+        <Grid Background="{TemplateBinding Background}">
             <local:CameraControl Name="MyCamera" />
             <ContentPresenter 
                 Name="MyContent" 
@@ -31,6 +31,11 @@
     </ControlTemplate>
 
     <Style x:Key="DefaultStageControlStyle" TargetType="local:StageControl">
+        <Setter Property="Background">
+            <Setter.Value>
+                <ImageBrush ImageSource="ms-appx:///Pseudo3DToolkit/Assets/Stage/Background.png" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template" Value="{StaticResource DefaultStageControlTemplate}" />
     </Style>
 
