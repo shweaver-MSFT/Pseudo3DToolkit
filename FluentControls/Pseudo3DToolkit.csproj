@@ -111,7 +111,6 @@
     <Compile Include="Controls\CameraNavigationControl\CameraNavigationControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
-    <Compile Include="Controls\SkyboxControl\SkyboxSide.cs" />
     <Compile Include="Controls\StageControl\StageControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FluentControls.rd.xml" />
@@ -128,8 +127,6 @@
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Mountains.png" />
-    <Content Include="Assets\Sky.jpg" />
     <Content Include="Assets\Skybox\Gridlines.png" />
     <Content Include="Assets\Stage\Background.png" />
     <Content Include="Assets\Stage\Background_Dark.png" />
@@ -138,8 +135,8 @@
     <Content Include="Assets\Stage\Background_Shadow.png" />
     <Content Include="Assets\Stage\EmptyRoom.jpg" />
     <Content Include="Assets\Stage\EmptyRoom_Normal.jpg" />
+    <Content Include="Assets\Stage\Gridlines.png" />
     <Content Include="Assets\Stage\Stage.png" />
-    <Content Include="Assets\Water.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\CameraNavigationControl\CameraNavigationControl.xaml">

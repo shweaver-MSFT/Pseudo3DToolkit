@@ -25,7 +25,9 @@
         </pseudo:SkyboxControl>-->
         <pseudo:StageControl
             Name="MyStage"
-            NavigationControlsVisibility="Visible">
+            NavigationControlsVisibility="Visible"
+            BackgropImage="ms-appx:///Assets/Stage/Sky.jpg"
+            FloorImage="ms-appx:///Assets/Stage/Water.png">
             <Grid>
                 
             </Grid>

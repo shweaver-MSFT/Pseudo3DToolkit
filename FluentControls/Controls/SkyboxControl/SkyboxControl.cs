@@ -12,6 +12,16 @@ namespace Pseudo3DToolkit.Controls
     [TemplatePart(Name = CONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
     public sealed partial class SkyboxControl : ContentControl
     {
+        private enum SkyboxSide
+        {
+            Top,
+            Bottom,
+            Left,
+            Right,
+            Front,
+            Back
+        }
+
         // Template part names
         private const string CAMERACONTROL_NAME = "MyCamera";
         private const string CONTENTPRESENTER_NAME = "MyContent";

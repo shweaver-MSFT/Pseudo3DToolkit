@@ -13,6 +13,12 @@ namespace Pseudo3DToolkit.Controls
     [TemplatePart(Name = CONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
     public sealed partial class StageControl : ContentControl
     {
+        private enum StageSide
+        {
+            Backdrop,
+            Floor
+        }
+
         // Template part names
         private const string CAMERACONTROL_NAME = "MyCamera";
         private const string CONTENTPRESENTER_NAME = "MyContent";
@@ -24,6 +30,7 @@ namespace Pseudo3DToolkit.Controls
         private static readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
         private static readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
         private static readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
+        private static readonly string _defaultImage = "ms-appx:///Pseudo3DToolkit/Assets/Stage/Gridlines.png";
 
         // Template parts
         private CameraControl _cameraControl;
@@ -67,7 +74,7 @@ namespace Pseudo3DToolkit.Controls
             // Unregister
             if (_cameraControl != null)
             {
-
+                SizeChanged -= OnSizeChanged;
             }
 
             // Get template part
@@ -87,7 +94,7 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.Yaw = 0;
             _cameraControl.Pitch = 0;
             _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth / 4);
+            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
 
             // ImageLoader
             _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
@@ -97,29 +104,14 @@ namespace Pseudo3DToolkit.Controls
             _stageContainer = _compositor.CreateContainerVisual();
             _stageContainer.CenterPoint = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, _stageFloorDepth / 2);
             _stageContainer.AnchorPoint = new Vector2(_stageWidth / 2, _stageBackdropHeight / 2);
-            _stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
+            _stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight * 0.75f, -1 * _stageFloorDepth / 4);
             _stageContainer.RotationAxis = _rotationAxisY;
             _stageContainer.BorderMode = CompositionBorderMode.Hard;
             _stageContainer.Comment = "Stage";
 
-            // Backdrop
-            SpriteVisual back = _compositor.CreateSpriteVisual();
-            back.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth);
-            back.Size = new Vector2(_stageWidth, _stageBackdropHeight);
-            back.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png"), new Size(_stageWidth, _stageBackdropHeight)).Surface);
-            back.Comment = "Backdrop";
-            _stageContainer.Children.InsertAtTop(back);
-
-            // Floor
-            SpriteVisual bottom = _compositor.CreateSpriteVisual();
-            bottom = _compositor.CreateSpriteVisual();
-            bottom.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight * 1.5f, -1 * _stageFloorDepth);
-            bottom.Size = new Vector2(_stageWidth, _stageFloorDepth);
-            bottom.RotationAngleInDegrees = 90f;
-            bottom.RotationAxis = _rotationAxisX;
-            bottom.Comment = "Floor";
-            bottom.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png"), new Size(_stageWidth, _stageFloorDepth)).Surface);
-            _stageContainer.Children.InsertAtTop(bottom);
+            // Backdrop + Floor
+            SetupStageSide(StageSide.Backdrop);
+            SetupStageSide(StageSide.Floor);
 
             // World root
             SpriteVisual treeRoot = _compositor.CreateSpriteVisual();
@@ -130,6 +122,42 @@ namespace Pseudo3DToolkit.Controls
             ElementCompositionPreview.SetElementChildVisual(_cameraControl, treeRoot);
             treeRoot.Children.InsertAtTop(worldRoot);
             worldRoot.Children.InsertAtTop(_stageContainer);
+        }
+
+        private SpriteVisual SetupStageSide(StageSide side)
+        {
+            SpriteVisual visual = _compositor.CreateSpriteVisual();
+            Vector3 offset = Vector3.Zero;
+            Vector2 size = Vector2.Zero;
+            CompositionBrush brush = null;
+            string comment = string.Empty;
+
+            switch(side)
+            {
+                case StageSide.Backdrop:
+                    offset = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth);
+                    size = new Vector2(_stageWidth, _stageBackdropHeight);
+                    brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri(BackgropImage), new Size(_stageWidth, _stageBackdropHeight)).Surface);
+                    comment = "Backdrop";
+                    break;
+
+                case StageSide.Floor:
+                    offset = new Vector3(_stageWidth / 2, _stageBackdropHeight * 1.5f, -1 * _stageFloorDepth);
+                    size = new Vector2(_stageWidth, _stageFloorDepth);
+                    brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri(FloorImage), new Size(_stageWidth, _stageFloorDepth)).Surface);
+                    comment = "Floor";
+                    visual.RotationAngleInDegrees = 90f;
+                    visual.RotationAxis = _rotationAxisX;
+                    break;
+            }
+
+            visual.Offset = offset;
+            visual.Size = size;
+            visual.Brush = brush;
+            visual.Comment = comment;
+
+            _stageContainer.Children.InsertAtTop(visual);
+            return visual;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)

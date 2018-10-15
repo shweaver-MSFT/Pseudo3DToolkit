@@ -132,6 +132,8 @@
     <None Include="SampleApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Stage\Mountains.png" />
+    <Content Include="Assets\Stage\Sky.jpg" />
     <Content Include="Assets\Skybox\Clouds\Back.jpg" />
     <Content Include="Assets\Skybox\Clouds\Bottom.jpg" />
     <Content Include="Assets\Skybox\Clouds\Front.jpg" />
@@ -150,6 +152,7 @@
     <Content Include="Assets\Skybox\Sunset\Left.png" />
     <Content Include="Assets\Skybox\Sunset\Right.png" />
     <Content Include="Assets\Skybox\Sunset\Top.png" />
+    <Content Include="Assets\Stage\Water.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -180,6 +183,7 @@
       <Name>Pseudo3DToolkit</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

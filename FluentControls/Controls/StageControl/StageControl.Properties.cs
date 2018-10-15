@@ -6,15 +6,47 @@ namespace Pseudo3DToolkit.Controls
     {
         public static readonly DependencyProperty NavigationControlsVisibilityProperty = DependencyProperty.Register(nameof(NavigationControlsVisibility), typeof(Visibility), typeof(StageControl), new PropertyMetadata(Visibility.Collapsed, OnNavigationControlsVisibilityChanged));
 
+        public static readonly DependencyProperty BackdropImageProperty = DependencyProperty.Register(nameof(BackgropImage), typeof(string), typeof(StageControl), new PropertyMetadata(_defaultImage, OnBackdropImageChanged));
+
+        public static readonly DependencyProperty FloorImageProperty = DependencyProperty.Register(nameof(FloorImage), typeof(string), typeof(StageControl), new PropertyMetadata(_defaultImage, OnFloorImageChanged));
+
         public Visibility NavigationControlsVisibility
         {
             get { return (Visibility)GetValue(NavigationControlsVisibilityProperty); }
             set { SetValue(NavigationControlsVisibilityProperty, value); }
         }
 
+        public string BackgropImage
+        {
+            get { return (string)GetValue(BackdropImageProperty); }
+            set { SetValue(BackdropImageProperty, value); }
+        }
+
+        public string FloorImage
+        {
+            get { return (string)GetValue(FloorImageProperty); }
+            set { SetValue(FloorImageProperty, value); }
+        }
+
         private static void OnNavigationControlsVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SkyboxControl skybox)
+            if (d is StageControl stage)
+            {
+
+            }
+        }
+
+        private static void OnBackdropImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is StageControl stage)
+            {
+
+            }
+        }
+
+        private static void OnFloorImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is StageControl stage)
             {
 
             }
