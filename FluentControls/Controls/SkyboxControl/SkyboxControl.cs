@@ -82,7 +82,7 @@ namespace Pseudo3DToolkit.Controls
 
             // Bail if missing
             if (_cameraControl == null) return;
-            
+
             SizeChanged += OnSizeChanged;
 
             // Camera setup
@@ -113,12 +113,12 @@ namespace Pseudo3DToolkit.Controls
             _skyboxContainer.Comment = "Skybox";
 
             // Skybox sides
-            SpriteVisual skyboxTop = SetupSkyboxSide(SkyboxSide.Top);
-            SpriteVisual skyboxLeft = SetupSkyboxSide(SkyboxSide.Left);
-            SpriteVisual skyboxRight = SetupSkyboxSide(SkyboxSide.Right);
-            SpriteVisual skyboxBottom = SetupSkyboxSide(SkyboxSide.Bottom);
-            SpriteVisual skyboxFront = SetupSkyboxSide(SkyboxSide.Front);
-            SpriteVisual skyboxBack = SetupSkyboxSide(SkyboxSide.Back);
+            SetupSkyboxSide(SkyboxSide.Top);
+            SetupSkyboxSide(SkyboxSide.Left);
+            SetupSkyboxSide(SkyboxSide.Right);
+            SetupSkyboxSide(SkyboxSide.Bottom);
+            SetupSkyboxSide(SkyboxSide.Front);
+            SetupSkyboxSide(SkyboxSide.Back);
 
             // World root
             SpriteVisual treeRoot = _compositor.CreateSpriteVisual();

@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <pseudo:SkyboxControl
+        <!--<pseudo:SkyboxControl
             Name="MySkybox"
             AutoRotate="True"
             NavigationControlsVisibility="Visible">
@@ -22,6 +22,13 @@
                     <TextBlock Foreground="White">Hello World!</TextBlock>
                 </Grid>
             </Grid>
-        </pseudo:SkyboxControl>
+        </pseudo:SkyboxControl>-->
+        <pseudo:StageControl
+            Name="MyStage"
+            NavigationControlsVisibility="Visible">
+            <Grid>
+                
+            </Grid>
+        </pseudo:StageControl>
     </Grid>
 </Page>
