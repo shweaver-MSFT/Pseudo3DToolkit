@@ -17,10 +17,9 @@ namespace Pseudo3DToolkit.Controls
         private const string CONTENTPRESENTER_NAME = "MyContent";
 
         // Defaults
-        private static readonly float _stageFloorDepth = 45000;
-        private static readonly float _stageFloorWidth = 90000;
-        private static readonly float _stageBackdropWidth = 45000;
-        private static readonly float _stageBackdropHeight = 90000;
+        private static readonly float _stageWidth = 1920;
+        private static readonly float _stageFloorDepth = 1080;
+        private static readonly float _stageBackdropHeight = 1080;
         private static readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
         private static readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
         private static readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
@@ -87,27 +86,25 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.Yaw = 0;
             _cameraControl.Pitch = 0;
             _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(960, 540, 0);
+            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, 0);
 
             // ImageLoader
             _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
             _surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(_compositor);
 
             // Stage container
-            var halfStageSize = 90000 / 2;
-            var negativeHalfStageSize = -90000 / 2;
             _stageContainer = _compositor.CreateContainerVisual();
-            _stageContainer.CenterPoint = new Vector3(halfStageSize, halfStageSize, halfStageSize);
-            _stageContainer.AnchorPoint = new Vector2(halfStageSize, halfStageSize);
-            _stageContainer.Offset = new Vector3(negativeHalfStageSize, negativeHalfStageSize, negativeHalfStageSize);
+            _stageContainer.CenterPoint = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, _stageFloorDepth / 2);
+            _stageContainer.AnchorPoint = new Vector2(_stageWidth / 2, _stageBackdropHeight / 2);
+            _stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
             _stageContainer.RotationAxis = _rotationAxisY;
             _stageContainer.BorderMode = CompositionBorderMode.Hard;
             _stageContainer.Comment = "Skybox";
 
             // Backdrop
             SpriteVisual back = _compositor.CreateSpriteVisual();
-            back.Offset = new Vector3(22500, 0, 0);
-            back.Size = new Vector2(_stageBackdropWidth, _stageBackdropHeight);
+            back.Offset = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth); // <960,480,-960>
+            back.Size = new Vector2(_stageWidth, _stageBackdropHeight);
             back.Brush = _compositor.CreateSurfaceBrush(_surfaceFactory.CreateUriSurface(new Uri("ms-appx:///Pseudo3DToolkit/Assets/Skybox/Gridlines.png")).Surface);
             back.Comment = "Backdrop";
             _stageContainer.Children.InsertAtTop(back);
@@ -115,8 +112,8 @@ namespace Pseudo3DToolkit.Controls
             // Floor
             SpriteVisual bottom = _compositor.CreateSpriteVisual();
             bottom = _compositor.CreateSpriteVisual();
-            bottom.Offset = new Vector3(0, 67500, 0);
-            bottom.Size = new Vector2(_stageFloorWidth, _stageFloorDepth);
+            bottom.Offset = new Vector3(0, _stageWidth / 2, 0);
+            bottom.Size = new Vector2(_stageWidth, _stageFloorDepth);
             bottom.RotationAngleInDegrees = 90f;
             bottom.RotationAxis = _rotationAxisX;
             bottom.Comment = "Floor";
