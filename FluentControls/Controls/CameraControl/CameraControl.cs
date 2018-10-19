@@ -1,12 +1,14 @@
 ﻿using Pseudo3DToolkit.Composition;
+using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Pseudo3DToolkit.Controls
 {
-    public sealed partial class CameraControl : UserControl
+    public sealed partial class CameraControl : ItemsControl
     {
         private readonly float _cameraRotationDistance = 1.5708f; // 90 degrees = Math.Pi / 2
 
@@ -99,6 +101,13 @@ namespace Pseudo3DToolkit.Controls
         {
             CompositionCamera.RotateYaw(_cameraRotationDistance);
             CompositionCamera.RotatePitch(0);
+        }
+
+        protected override void OnApplyTemplate()
+        {
+
+
+            base.OnApplyTemplate();
         }
     }
 }

@@ -106,6 +106,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Composition\CompositionBrushConverter.cs" />
+    <Compile Include="Controls\CameraControl\CameraControl.VisualElements.cs" />
+    <Compile Include="Controls\VisualElement.cs" />
     <Compile Include="Controls\CameraControl\CameraControl.cs" />
     <Compile Include="Composition\CompositionCamera.cs" />
     <Compile Include="Controls\CameraNavigationControl\CameraNavigationControl.cs" />
