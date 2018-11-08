@@ -23,23 +23,9 @@ namespace Pseudo3DToolkit.Controls
         private const string CAMERACONTROL_NAME = "MyCamera";
         private const string CONTENTPRESENTER_NAME = "MyContent";
 
-        // Defaults
-        private static readonly float _stageWidth = 1920;
-        private static readonly float _stageFloorDepth = 1080;
-        private static readonly float _stageBackdropHeight = 1080;
-        private static readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
-        private static readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
-        private static readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
-        private static readonly string _defaultImage = "ms-appx:///Pseudo3DToolkit/Assets/Stage/Gridlines.png";
-
         // Template parts
         private CameraControl _cameraControl;
         private ContentPresenter _contentPresenter;
-
-        // Other fields
-        private Compositor _compositor;
-        private SurfaceFactory _surfaceFactory;
-        private ContainerVisual _stageContainer;
 
         public StageControl()
         {
@@ -90,37 +76,37 @@ namespace Pseudo3DToolkit.Controls
             _cameraControl.Yaw = 0;
             _cameraControl.Pitch = 0;
             _cameraControl.PerspectiveDistance = 575;
-            _cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
+            //_cameraControl.Position = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, -1 * _stageFloorDepth / 2);
 
             // ImageLoader
-            _compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
-            _surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(_compositor);
+            //_compositor = _cameraControl.CompositionCamera.CameraVisual.Compositor;
+            //_surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(_compositor);
 
-            // Stage container
-            _stageContainer = _compositor.CreateContainerVisual();
-            _stageContainer.CenterPoint = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, _stageFloorDepth / 2);
-            _stageContainer.AnchorPoint = new Vector2(_stageWidth / 2, _stageBackdropHeight / 2);
-            _stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight * 0.75f, -1 * _stageFloorDepth / 4);
-            _stageContainer.RotationAxis = _rotationAxisY;
-            _stageContainer.BorderMode = CompositionBorderMode.Hard;
-            _stageContainer.Comment = "Stage";
+            //// Stage container
+            //_stageContainer = _compositor.CreateContainerVisual();
+            //_stageContainer.CenterPoint = new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, _stageFloorDepth / 2);
+            //_stageContainer.AnchorPoint = new Vector2(_stageWidth / 2, _stageBackdropHeight / 2);
+            //_stageContainer.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight * 0.75f, -1 * _stageFloorDepth / 4);
+            //_stageContainer.RotationAxis = _rotationAxisY;
+            //_stageContainer.BorderMode = CompositionBorderMode.Hard;
+            //_stageContainer.Comment = "Stage";
 
             // Backdrop + Floor
-            SetupStageSide(StageSide.Backdrop);
-            SetupStageSide(StageSide.Floor);
+            //SetupStageSide(StageSide.Backdrop);
+            //SetupStageSide(StageSide.Floor);
 
-            // World root
-            SpriteVisual treeRoot = _compositor.CreateSpriteVisual();
-            SpriteVisual worldRoot = _compositor.CreateSpriteVisual();
-            treeRoot.Comment = "TreeRoot";
-            worldRoot.Comment = "WorldRoot";
+            //// World root
+            //SpriteVisual treeRoot = _compositor.CreateSpriteVisual();
+            //SpriteVisual worldRoot = _compositor.CreateSpriteVisual();
+            //treeRoot.Comment = "TreeRoot";
+            //worldRoot.Comment = "WorldRoot";
 
-            ElementCompositionPreview.SetElementChildVisual(_cameraControl, treeRoot);
-            treeRoot.Children.InsertAtTop(worldRoot);
-            worldRoot.Children.InsertAtTop(_stageContainer);
+            //ElementCompositionPreview.SetElementChildVisual(_cameraControl, treeRoot);
+            //treeRoot.Children.InsertAtTop(worldRoot);
+            //worldRoot.Children.InsertAtTop(_stageContainer);
         }
 
-        private SpriteVisual SetupStageSide(StageSide side)
+        /*private SpriteVisual SetupStageSide(StageSide side)
         {
             SpriteVisual visual = _compositor.CreateSpriteVisual();
             Vector3 offset = Vector3.Zero;
@@ -154,7 +140,7 @@ namespace Pseudo3DToolkit.Controls
 
             _stageContainer.Children.InsertAtTop(visual);
             return visual;
-        }
+        }*/
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {

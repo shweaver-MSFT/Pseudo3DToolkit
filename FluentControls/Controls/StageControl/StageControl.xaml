@@ -8,28 +8,25 @@
 
     <ControlTemplate x:Key="DefaultStageControlTemplate" TargetType="local:StageControl">
         <Grid Background="{TemplateBinding Background}">
-            <local:CameraControl Name="MyCamera">
-                <local:CameraControl.Items>
-                    <local:VisualElement 
-                        Height="1080"
-                        Width="1920"
-                        PositionX="960"
-                        PositionY="540"
-                        PositionZ="-1080"
-                        CompositionBrush="{Binding BackdropImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
-                        Comment="Backdrop"/>
-                    <local:VisualElement 
-                        Height="1080"
-                        Width="1920"
-                        PositionX="960"
-                        PositionY="1620"
-                        PositionZ="-1080"
-                        RotationAngleInDegrees="90"
-                        RotationAxisX="1"
-                        CompositionBrush="{Binding FloorImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
-                        Comment="Floor" />
-                </local:CameraControl.Items>
-            </local:CameraControl>
+            <local:CameraControl Name="MyCamera" />
+            <local:VisualElement 
+                Height="1080"
+                Width="1920"
+                PositionX="960"
+                PositionY="540"
+                PositionZ="-1080"
+                CompositionBrush="{Binding BackdropImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
+                Comment="Backdrop"/>
+            <local:VisualElement 
+                Height="1080"
+                Width="1920"
+                PositionX="960"
+                PositionY="1620"
+                PositionZ="-1080"
+                RotationAngleInDegrees="90"
+                RotationAxisX="1"
+                CompositionBrush="{Binding FloorImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
+                Comment="Floor" />
             <ContentPresenter 
                 Name="MyContent" 
                 Content="{TemplateBinding Content}" />

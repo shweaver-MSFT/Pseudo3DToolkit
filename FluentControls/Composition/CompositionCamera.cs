@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 
 namespace Pseudo3DToolkit.Composition
 {
@@ -140,6 +141,12 @@ namespace Pseudo3DToolkit.Composition
             AnimateVisualMatrix();
         }
 
+        public void AddVisualElement(UIElement element)
+        {
+
+        }
+
+        #region Animations
         public void TranslateX(float value, float duration = _defaultAnimationDuration)
         {
             Position = new Vector3(value, Position.Y, Position.Z);
@@ -182,7 +189,9 @@ namespace Pseudo3DToolkit.Composition
             rotateAnimation.Duration = TimeSpan.FromMilliseconds(duration);
             CameraVisual.Properties.StartAnimation("cameraAnimationYaw", rotateAnimation);
         }
+        #endregion
 
+        #region VisualMatrix
         private void AnimateVisualMatrix()
         {
             if (!_useAnimations)
@@ -263,6 +272,7 @@ namespace Pseudo3DToolkit.Composition
 
             CameraVisual.TransformMatrix = translate * rotate * (IsOrthographic ? Matrix4x4.Identity : perspectiveChris);
         }
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

@@ -115,6 +115,7 @@
     <Compile Include="Controls\SkyboxControl\SkyboxControl.cs" />
     <Compile Include="Controls\SkyboxControl\SkyboxControl.Properties.cs" />
     <Compile Include="Controls\StageControl\StageControl.cs" />
+    <Compile Include="Extensions\VisualElementExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FluentControls.rd.xml" />
   </ItemGroup>
@@ -127,7 +128,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <Compile Include="Composition\CompositionCamera.VisualElements.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Skybox\Gridlines.png" />

@@ -1,8 +1,6 @@
 ﻿using Pseudo3DToolkit.Composition;
-using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Composition;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
@@ -10,7 +8,15 @@ namespace Pseudo3DToolkit.Controls
 {
     public sealed partial class CameraControl : ItemsControl
     {
-        private readonly float _cameraRotationDistance = 1.5708f; // 90 degrees = Math.Pi / 2
+        private static readonly float _cameraRotationDistance = 1.5708f; // 90 degrees = Math.Pi / 2
+        private static readonly float _stageWidth = 1920;
+        private static readonly float _stageFloorDepth = 1080;
+        private static readonly float _stageBackdropHeight = 1080;
+        private static readonly Vector3 _cameraPosition = new Vector3(0, 0, 1000);
+        private static readonly Vector3 _rotationAxisX = new Vector3(1, 0, 0);
+        private static readonly Vector3 _rotationAxisY = new Vector3(0, 1, 0);
+
+        private ContainerVisual _containerVisual;
 
         public CompositionCamera CompositionCamera { get; private set; }
 
@@ -105,9 +111,34 @@ namespace Pseudo3DToolkit.Controls
 
         protected override void OnApplyTemplate()
         {
+            var compositor = CompositionCamera.CameraVisual.Compositor;
 
+            // Setup container visual
+            _containerVisual = compositor.CreateContainerVisual();
+            _containerVisual.CenterPoint = Position;//new Vector3(_stageWidth / 2, _stageBackdropHeight / 2, _stageFloorDepth / 2);
+            _containerVisual.AnchorPoint = new Vector2(_stageWidth / 2, _stageBackdropHeight / 2);
+            _containerVisual.Offset = new Vector3(-1 * _stageWidth / 2, -1 * _stageBackdropHeight * 0.75f, -1 * _stageFloorDepth / 4);
+            _containerVisual.RotationAxis = _rotationAxisY;
+            _containerVisual.BorderMode = CompositionBorderMode.Hard;
+            _containerVisual.Comment = "VisualElements";
+
+            // World root
+            SpriteVisual treeRoot = compositor.CreateSpriteVisual();
+            SpriteVisual worldRoot = compositor.CreateSpriteVisual();
+            treeRoot.Comment = "TreeRoot";
+            worldRoot.Comment = "WorldRoot";
+
+            ElementCompositionPreview.SetElementChildVisual(this, treeRoot);
+            treeRoot.Children.InsertAtTop(worldRoot);
+            worldRoot.Children.InsertAtTop(_containerVisual);
 
             base.OnApplyTemplate();
+        }
+
+        public void AddVisualElement(VisualElement element)
+        {
+            var visual = element.GetSpriteVisual(CompositionCamera.CameraVisual.Compositor);
+            _containerVisual.Children.InsertAtTop(visual);
         }
     }
 }

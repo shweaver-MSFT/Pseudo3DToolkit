@@ -232,27 +232,22 @@ namespace Pseudo3DToolkit.Controls
         }
         #endregion
 
-        private SpriteVisual _visual;
-        private Compositor _compositor;
-
         public VisualElement()
         {
             
         }
 
-        private void CreateVisual(Compositor compositor, UIElement parentElement)
+        public SpriteVisual GetSpriteVisual(Compositor compositor)
         {
-            _compositor = compositor;
+            var visual = compositor.CreateSpriteVisual();
+            visual.Comment = Comment;
+            visual.Brush = CompositionBrush;
+            visual.RotationAngleInDegrees = RotationAngleInDegrees;
+            visual.Size = new Vector2(Width, Height);
+            visual.Offset = new Vector3(PositionX, PositionY, PositionZ);
+            visual.RotationAxis = new Vector3(RotationAxisX, RotationAxisY, RotationAxisZ);
 
-            _visual = _compositor.CreateSpriteVisual();
-            _visual.Comment = Comment;
-            _visual.Brush = CompositionBrush;
-            _visual.RotationAngleInDegrees = RotationAngleInDegrees;
-            _visual.Size = new Vector2(Width, Height);
-            _visual.Offset = new Vector3(PositionX, PositionY, PositionZ);
-            _visual.RotationAxis = new Vector3(RotationAxisX, RotationAxisY, RotationAxisZ);
-
-            ElementCompositionPreview.SetElementChildVisual(parentElement, _visual);
+            return visual;
         }
     }
 }
