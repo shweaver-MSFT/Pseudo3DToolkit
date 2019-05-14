@@ -5,28 +5,39 @@
     xmlns:composition="using:Pseudo3DToolkit.Composition">
 
     <composition:CompositionBrushConverter x:Key="CompositionBrushConverter" />
+    <x:Double x:Key="Double_1080">1080</x:Double>
+    <x:Double x:Key="Double_1920">1920</x:Double>
+    <x:Double x:Key="Double_1620">1620</x:Double>
+    <x:Double x:Key="Double_960">960</x:Double>
+    <x:Double x:Key="Double_540">540</x:Double>
+    <x:Double x:Key="Double_90">90</x:Double>
+    <x:Double x:Key="Double_1">1</x:Double>
+    <x:Double x:Key="Double_-1080">-1080</x:Double>
 
     <ControlTemplate x:Key="DefaultStageControlTemplate" TargetType="local:StageControl">
         <Grid Background="{TemplateBinding Background}">
-            <local:CameraControl Name="MyCamera" />
-            <local:VisualElement 
-                Height="1080"
-                Width="1920"
-                PositionX="960"
-                PositionY="540"
-                PositionZ="-1080"
-                CompositionBrush="{Binding BackdropImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
-                Comment="Backdrop"/>
-            <local:VisualElement 
-                Height="1080"
-                Width="1920"
-                PositionX="960"
-                PositionY="1620"
-                PositionZ="-1080"
-                RotationAngleInDegrees="90"
-                RotationAxisX="1"
-                CompositionBrush="{Binding FloorImage, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CompositionBrushConverter}}"
-                Comment="Floor" />
+            <local:CameraControl Name="MyCamera">
+                <local:CameraControl.VisualElements>
+                    <local:VisualElement 
+                        Height="{StaticResource Double_1080}"
+                        Width="{StaticResource Double_1920}"
+                        PositionX="{StaticResource Double_960}"
+                        PositionY="{StaticResource Double_540}"
+                        PositionZ="{StaticResource Double_-1080}"
+                        CompositionBrush="{TemplateBinding BackdropImage}"
+                        Comment="Backdrop" />
+                    <local:VisualElement 
+                        Height="{StaticResource Double_1080}"
+                        Width="{StaticResource Double_1920}"
+                        PositionX="{StaticResource Double_960}"
+                        PositionY="{StaticResource Double_1620}"
+                        PositionZ="{StaticResource Double_-1080}"
+                        RotationAngleInDegrees="{StaticResource Double_90}"
+                        RotationAxisX="{StaticResource Double_1}"
+                        CompositionBrush="{TemplateBinding FloorImage}"
+                        Comment="Floor" />
+                </local:CameraControl.VisualElements>
+            </local:CameraControl>
             <ContentPresenter 
                 Name="MyContent" 
                 Content="{TemplateBinding Content}" />

@@ -2,12 +2,13 @@
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 
 namespace Pseudo3DToolkit.Controls
 {
-    public sealed class VisualElement : UserControl
+    public sealed class VisualElement : Control
     {
+        private SpriteVisual _visual;
+
         #region DependencyProperties
         public static readonly DependencyProperty CameraProperty = DependencyProperty.Register(nameof(Camera), typeof(CameraControl), typeof(VisualElement), new PropertyMetadata(null, OnCameraChanged));
 
@@ -114,13 +115,13 @@ namespace Pseudo3DToolkit.Controls
             if (d is VisualElement visualElement)
             {
                 var camera = (CameraControl)e.NewValue;
-                visualElement.CreateVisual(camera.CompositionCamera.CameraVisual.Compositor, camera);
+                visualElement._visual = visualElement.GetSpriteVisual(camera.CompositionCamera.CameraVisual.Compositor);
             }
         }
 
         private static void OnPositionXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)e.NewValue;
                 var y = (float)d.GetValue(PositionYProperty);
@@ -131,7 +132,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnPositionYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)d.GetValue(PositionXProperty);
                 var y = (float)e.NewValue;
@@ -142,7 +143,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnPositionZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)d.GetValue(PositionXProperty);
                 var y = (float)d.GetValue(PositionYProperty);
@@ -153,7 +154,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var width = (float)d.GetValue(WidthProperty);
                 var height = (float)e.NewValue;
@@ -163,7 +164,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var width = (float)e.NewValue;
                 var height = (float)d.GetValue(HeightProperty);
@@ -173,7 +174,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnCommentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var comment = (string)e.NewValue;
                 visualElement._visual.Comment = comment;
@@ -182,7 +183,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnCompositionBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var brush = (CompositionBrush)e.NewValue;
                 visualElement._visual.Brush = brush;
@@ -191,7 +192,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnRotationAngleInDegreesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var angle = (float)e.NewValue;
                 visualElement._visual.RotationAngleInDegrees = angle;
@@ -200,7 +201,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnRotationAxisXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)e.NewValue;
                 var y = (float)d.GetValue(RotationAxisYProperty);
@@ -211,7 +212,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnRotationAxisYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)d.GetValue(RotationAxisXProperty);
                 var y = (float)e.NewValue;
@@ -222,7 +223,7 @@ namespace Pseudo3DToolkit.Controls
 
         private static void OnRotationAxisZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is VisualElement visualElement)
+            if (d is VisualElement visualElement && visualElement._visual != null)
             {
                 var x = (float)d.GetValue(RotationAxisXProperty);
                 var y = (float)d.GetValue(RotationAxisYProperty);

@@ -1,39 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Pseudo3DToolkit.Controls
 {
-    public sealed partial class CameraControl : ItemsControl
+    public sealed partial class CameraControl : UserControl
     {
-        //public static readonly DependencyProperty VisualElementsProperty = DependencyProperty.Register(nameof(VisualElements), typeof(List<VisualElement>), typeof(CameraControl), new PropertyMetadata(null, OnVisualElementsChanged));
+        public static readonly DependencyProperty VisualElementsProperty = DependencyProperty.Register(nameof(VisualElements), typeof(List<VisualElement>), typeof(CameraControl), new PropertyMetadata(new List<VisualElement>(), OnVisualElementsChanged));
 
-        //public List<VisualElement> VisualElements
-        //{
-        //    get => (List<VisualElement>)GetValue(VisualElementsProperty);
-        //    set => SetValue(VisualElementsProperty, value);
-        //}
-
-        //public static void OnVisualElementsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    if (d is CameraControl camera)
-        //    {
-        //        var visualElements = (List<VisualElement>)e.NewValue;
-
-        //    }
-        //}
-
-        protected override void OnItemsChanged(object e)
+        public List<VisualElement> VisualElements
         {
+            get => (List<VisualElement>)GetValue(VisualElementsProperty);
+            set => SetValue(VisualElementsProperty, value);
+        }
 
-
-
-
-            base.OnItemsChanged(e);
+        /// <summary>
+        /// Update elements to use this Camera instance
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        public static void OnVisualElementsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CameraControl camera)
+            {
+                var visualElements = (List<VisualElement>)e.NewValue;
+                foreach(var ve in visualElements)
+                {
+                    ve.Camera = camera;
+                }
+            }
         }
     }
 }

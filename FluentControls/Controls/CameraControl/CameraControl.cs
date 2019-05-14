@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Pseudo3DToolkit.Controls
 {
-    public sealed partial class CameraControl : ItemsControl
+    public sealed partial class CameraControl : UserControl
     {
         private static readonly float _cameraRotationDistance = 1.5708f; // 90 degrees = Math.Pi / 2
         private static readonly float _stageWidth = 1920;
@@ -131,6 +131,11 @@ namespace Pseudo3DToolkit.Controls
             ElementCompositionPreview.SetElementChildVisual(this, treeRoot);
             treeRoot.Children.InsertAtTop(worldRoot);
             worldRoot.Children.InsertAtTop(_containerVisual);
+
+            foreach (var element in VisualElements)
+            {
+                AddVisualElement(element);
+            }
 
             base.OnApplyTemplate();
         }

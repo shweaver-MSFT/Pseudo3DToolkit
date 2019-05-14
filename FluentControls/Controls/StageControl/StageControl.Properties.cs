@@ -6,9 +6,9 @@ namespace Pseudo3DToolkit.Controls
     {
         public static readonly DependencyProperty NavigationControlsVisibilityProperty = DependencyProperty.Register(nameof(NavigationControlsVisibility), typeof(Visibility), typeof(StageControl), new PropertyMetadata(Visibility.Collapsed, OnNavigationControlsVisibilityChanged));
 
-        public static readonly DependencyProperty BackdropImageProperty = DependencyProperty.Register(nameof(BackgropImage), typeof(string), typeof(StageControl), new PropertyMetadata(_defaultImage, OnBackdropImageChanged));
+        public static readonly DependencyProperty BackdropImageProperty = DependencyProperty.Register(nameof(BackdropImage), typeof(string), typeof(StageControl), new PropertyMetadata(null, OnBackdropImageChanged));
 
-        public static readonly DependencyProperty FloorImageProperty = DependencyProperty.Register(nameof(FloorImage), typeof(string), typeof(StageControl), new PropertyMetadata(_defaultImage, OnFloorImageChanged));
+        public static readonly DependencyProperty FloorImageProperty = DependencyProperty.Register(nameof(FloorImage), typeof(string), typeof(StageControl), new PropertyMetadata(null, OnFloorImageChanged));
 
         public Visibility NavigationControlsVisibility
         {
@@ -16,7 +16,7 @@ namespace Pseudo3DToolkit.Controls
             set { SetValue(NavigationControlsVisibilityProperty, value); }
         }
 
-        public string BackgropImage
+        public string BackdropImage
         {
             get { return (string)GetValue(BackdropImageProperty); }
             set { SetValue(BackdropImageProperty, value); }

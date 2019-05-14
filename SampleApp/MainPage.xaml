@@ -26,7 +26,7 @@
         <pseudo:StageControl
             Name="MyStage"
             NavigationControlsVisibility="Visible"
-            BackgropImage="ms-appx:///Assets/Stage/Sky.jpg"
+            BackdropImage="ms-appx:///Assets/Stage/Sky.jpg"
             FloorImage="ms-appx:///Assets/Stage/Water.png">
             <Grid>
                 
